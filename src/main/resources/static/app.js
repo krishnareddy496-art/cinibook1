@@ -1325,9 +1325,9 @@
 
     const booking = {
       id: `bk-${Date.now()}`,
-      bookingCode: `BMS-${Math.random().toString(36).slice(2, 7).toUpperCase()}`,
+      bookingCode: `CB-${Math.random().toString(36).slice(2, 7).toUpperCase()}`,
       movieTitle: movie.title,
-      theatreName: theatre ? theatre.theaterName : "BMS Theatre",
+      theatreName: theatre ? theatre.theaterName : "CineBook Theatre",
       hallName: hall.hallName,
       date: document.getElementById("bookingDate").value,
       time: ui.bookingTime,
@@ -1732,7 +1732,7 @@
     document.querySelectorAll(".auth-tab").forEach(t => t.classList.toggle("active", t.dataset.authMode === mode));
     loginForm.classList.toggle("active", !isReg);
     registerForm.classList.toggle("active", isReg);
-    document.getElementById("authModalHeading").textContent = isReg ? "Create Your BMS Account" : "Welcome Back to BMS";
+    document.getElementById("authModalHeading").textContent = isReg ? "Create Your CineBook Account" : "Welcome Back to CineBook";
     document.getElementById("authModalSub").textContent = isReg
       ? "Register with your name, email, mobile number, and password."
       : "Sign in with your registered email and password.";
