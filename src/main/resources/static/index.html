@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BMS August 2026 — Movies, Theatres & Admin Portal</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Top Navigation -->
+  <header class="navbar">
+    <div class="nav-left">
+      <div class="brand" id="brandHome">
+        <span class="brand-badge">BMS</span>
+        <div class="brand-text">
+          <strong>BookMyShow</strong>
+          <small>August 2026</small>
+        </div>
+      </div>
+
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="globalSearch" placeholder="Search movies, genres, theatres, cities..." />
+      </div>
+    </div>
+
+    <div class="nav-right">
+      <select id="cityFilter" class="city-select" aria-label="Select city">
+        <option value="ALL">All Cities</option>
+        <option value="Mumbai">Mumbai</option>
+        <option value="Bengaluru">Bengaluru</option>
+        <option value="Delhi">Delhi</option>
+        <option value="Hyderabad">Hyderabad</option>
+      </select>
+
+      <nav class="mode-switch" aria-label="Primary sections">
+        <button class="nav-tab active" data-view="discover">Movies</button>
+        <button class="nav-tab" data-view="theatres">Theatres</button>
+        <button class="nav-tab" data-view="bookings">My Tickets <span class="pill-count" id="ticketCount">0</span></button>
+        <button class="nav-tab" data-view="admin">Partner Portal</button>
+      </nav>
+
+      <div class="auth-nav-actions" id="authNavActions">
+        <button class="btn btn-ghost btn-sm" id="openRegisterBtn">Register</button>
+        <button class="btn btn-primary btn-sm" id="authBtn">Sign In</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="container">
+    <!-- VIEW 1: DISCOVER MOVIES -->
+    <section id="view-discover" class="view active">
+      <div class="hero-banner" id="heroBanner">
+        <div class="hero-content">
+          <span class="hero-tag" id="heroTag">NOW SHOWING • IMAX &amp; DOLBY ATMOS</span>
+          <h1 id="heroTitle">Quantum Horizon</h1>
+          <p id="heroSubtitle">An orbital research crew discovers a temporal rift above Europa and races against collapsing timelines to bring Earth home.</p>
+          <div class="hero-actions">
+            <button class="btn btn-primary btn-glow" id="heroBookBtn">🎟️ Book Featured Now</button>
+            <button class="btn btn-ghost" data-jump="theatres">🏛️ Explore Theatres</button>
+            <button class="btn btn-ghost" data-jump="admin">⚙️ Partner Portal</button>
+          </div>
+          <div class="hero-slider-controls">
+            <button class="slider-arrow" id="heroPrev" aria-label="Previous highlight">‹</button>
+            <div class="slider-dots" id="heroDots"></div>
+            <button class="slider-arrow" id="heroNext" aria-label="Next highlight">›</button>
+          </div>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-card">
+            <span class="stat-num" id="statMovies">0</span>
+            <span class="stat-label">Movies Live</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-num" id="statTheatres">0</span>
+            <span class="stat-label">Partner Theatres</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-num" id="statHalls">0</span>
+            <span class="stat-label">Audi Halls</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-num" id="statBookings">0</span>
+            <span class="stat-label">Tickets Booked</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filter Chips -->
+      <div class="filter-bar">
+        <div class="filter-group">
+          <span class="filter-label">Language:</span>
+          <div class="chip-row" id="langChips">
+            <button class="chip active" data-lang="ALL">All</button>
+            <button class="chip" data-lang="ENGLISH">English</button>
+            <button class="chip" data-lang="HINDI">Hindi</button>
+            <button class="chip" data-lang="TELUGU">Telugu</button>
+            <button class="chip" data-lang="TAMIL">Tamil</button>
+            <button class="chip" data-lang="KANNADA">Kannada</button>
+          </div>
+        </div>
+        <div class="filter-group">
+          <span class="filter-label">Genre:</span>
+          <div class="chip-row" id="genreChips">
+            <button class="chip active" data-genre="ALL">All</button>
+            <button class="chip" data-genre="Action">Action</button>
+            <button class="chip" data-genre="Sci-Fi">Sci-Fi</button>
+            <button class="chip" data-genre="Drama">Drama</button>
+            <button class="chip" data-genre="Thriller">Thriller</button>
+            <button class="chip" data-genre="Romance">Romance</button>
+            <button class="chip" data-genre="Fantasy">Fantasy</button>
+            <button class="chip" data-genre="Comedy">Comedy</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-header">
+        <div>
+          <h2>Recommended Movies</h2>
+          <span class="muted small" id="movieResultCount"></span>
+        </div>
+        <div class="sort-wrap">
+          <span class="muted small">Sort by:</span>
+          <select id="movieSort" class="city-select">
+            <option value="rating">Top Rated</option>
+            <option value="newest">Release Date</option>
+            <option value="title">Title (A–Z)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="movie-grid" id="movieGrid"></div>
+    </section>
+
+    <!-- VIEW 2: THEATRES & HALLS -->
+    <section id="view-theatres" class="view">
+      <div class="section-header">
+        <div>
+          <h2>Partner Theatres & Halls</h2>
+          <p class="muted">Explore theatres, facilities, and configured screen layouts.</p>
+        </div>
+        <button class="btn btn-primary" data-jump="admin-theatre">+ Register Theatre</button>
+      </div>
+      <div class="theatre-grid" id="theatreGrid"></div>
+    </section>
+
+    <!-- VIEW 3: MY TICKETS -->
+    <section id="view-bookings" class="view">
+      <div class="section-header">
+        <div>
+          <h2>My Booked Tickets</h2>
+          <p class="muted">All tickets booked in this browser are stored locally.</p>
+        </div>
+        <button class="btn btn-ghost btn-sm" id="clearBookingsBtn">Clear History</button>
+      </div>
+      <div class="bookings-list" id="bookingsList"></div>
+    </section>
+
+    <!-- VIEW 4: PARTNER & ADMIN PORTAL -->
+    <section id="view-admin" class="view">
+      <div class="section-header">
+        <div>
+          <h2>BMS Partner & Admin Portal</h2>
+          <p class="muted">Manage Companies, Theatres, Movies, Halls & Seat Mappings, Roles, and Employees (frontend-only state).</p>
+        </div>
+        <div class="session-pill" id="sessionStatus">Guest Mode</div>
+      </div>
+
+      <div class="admin-layout">
+        <aside class="admin-sidebar">
+          <button class="admin-tab active" data-admin-tab="movie">🎬 Register Movie</button>
+          <button class="admin-tab" data-admin-tab="theatre">🏛️ Register Theatre</button>
+          <button class="admin-tab" data-admin-tab="hall">🪑 Create Hall & Seats</button>
+          <button class="admin-tab" data-admin-tab="company">🏢 Register Company</button>
+          <button class="admin-tab" data-admin-tab="role">🛡️ Roles & Access</button>
+          <button class="admin-tab" data-admin-tab="employee">👥 Invite Employee</button>
+          <button class="admin-tab" data-admin-tab="users">👤 Registered Users</button>
+        </aside>
+
+        <div class="admin-panel">
+          <!-- Register Movie -->
+          <div class="admin-pane active" id="pane-movie">
+            <h3>Register New Movie</h3>
+            <p class="muted small">Maps to <code>CreateMovieRequest</code> — newly added movies immediately appear in the Movies catalog.</p>
+            <form id="movieForm" class="form-grid">
+              <label>Title *<input name="title" required placeholder="e.g. Interstellar: Horizon" /></label>
+              <label>Language *
+                <select name="language">
+                  <option value="ENGLISH">ENGLISH</option>
+                  <option value="HINDI">HINDI</option>
+                  <option value="TELUGU">TELUGU</option>
+                  <option value="TAMIL">TAMIL</option>
+                  <option value="KANNADA">KANNADA</option>
+                </select>
+              </label>
+              <label>Genre *<input name="genre" required placeholder="Sci-Fi, Action" /></label>
+              <label>Duration (mins) *<input type="number" name="durationMinutes" required min="30" value="145" /></label>
+              <label>Release Date *<input type="date" name="releaseDate" required value="2026-08-15" /></label>
+              <label>Certificate
+                <select name="censorCertificate">
+                  <option value="U">U</option>
+                  <option value="UA" selected>UA</option>
+                  <option value="A">A</option>
+                </select>
+              </label>
+              <label>Director<input name="director" placeholder="Christopher Nolan" /></label>
+              <label>IMDb Rating<input type="number" step="0.1" min="1" max="10" name="imdbRating" value="8.6" /></label>
+              <label class="span-2">Poster Image URL (optional)<input name="posterUrl" placeholder="assets/quantum-horizon.jpg or https://..." /></label>
+              <label class="span-2">Cast Members<input name="castMembers" placeholder="Comma separated cast names" /></label>
+              <label class="span-2">Synopsis<textarea name="synopsis" rows="2" placeholder="Brief storyline..."></textarea></label>
+              <div class="span-2 form-actions">
+                <button type="submit" class="btn btn-primary">Publish Movie</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Register Theatre -->
+          <div class="admin-pane" id="pane-theatre">
+            <h3>Register Theatre</h3>
+            <p class="muted small">Maps to <code>CreateTheatreRequest</code> — includes operating hours & amenities.</p>
+            <form id="theatreForm" class="form-grid">
+              <label>Theatre Name *<input name="theaterName" required placeholder="PVR ICON Phoenix" /></label>
+              <label>City *<input name="city" required placeholder="Mumbai" /></label>
+              <label>State<input name="state" placeholder="Maharashtra" /></label>
+              <label>Postal Code<input name="postalCode" placeholder="400013" /></label>
+              <label>Email<input type="email" name="email" placeholder="manager@pvr.in" /></label>
+              <label>Phone<input name="phoneNumber" placeholder="+91 98765 43210" /></label>
+              <label>Opening Time<input type="time" name="openingTime" value="09:00" /></label>
+              <label>Closing Time<input type="time" name="closingTime" value="23:59" /></label>
+              <label class="span-2">Address<input name="addressLine1" placeholder="Lower Parel, High Street" /></label>
+              <div class="span-2 checkbox-grid">
+                <label class="check"><input type="checkbox" name="imaxSupported" checked /> IMAX</label>
+                <label class="check"><input type="checkbox" name="dolbyAtmosSupported" checked /> Dolby Atmos</label>
+                <label class="check"><input type="checkbox" name="parkingAvailable" checked /> Parking</label>
+                <label class="check"><input type="checkbox" name="foodCourtAvailable" checked /> Food Court</label>
+                <label class="check"><input type="checkbox" name="wheelchairAccessible" checked /> Wheelchair Access</label>
+              </div>
+              <div class="span-2 form-actions">
+                <button type="submit" class="btn btn-primary">Register Theatre</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Create Hall & Seat Mapping -->
+          <div class="admin-pane" id="pane-hall">
+            <h3>Create Hall & Seat Mapping</h3>
+            <p class="muted small">Maps to <code>CreateHallRequest</code> &amp; <code>CreateHallSeatMappingRequest</code> with live layout preview.</p>
+            <form id="hallForm" class="form-grid">
+              <label>Theatre *<select name="theaterId" id="hallTheatreSelect" required></select></label>
+              <label>Hall Name *<input name="hallName" required placeholder="Audi 4 - IMAX Laser" /></label>
+              <label>Hall Type
+                <select name="hallType">
+                  <option value="IMAX">IMAX</option>
+                  <option value="DOLBY">DOLBY</option>
+                  <option value="GOLD_CLASS">GOLD_CLASS</option>
+                  <option value="STANDARD">STANDARD</option>
+                </select>
+              </label>
+              <label>Floor Number<input type="number" name="floorNumber" value="2" min="0" /></label>
+              <label>Rows (comma-separated)<input name="rows" id="hallRowsInput" value="A,B,C,D,E,F" /></label>
+              <label>Seats per Row<input type="number" name="seatsPerRow" id="hallSeatsInput" value="10" min="4" max="16" /></label>
+              <label>Aisle Break After Seat #<input type="number" name="seatBreak" id="hallBreakInput" value="5" min="0" max="12" /></label>
+              <div class="checkbox-grid">
+                <label class="check"><input type="checkbox" name="reclinerSeatsAvailable" checked /> Recliners</label>
+                <label class="check"><input type="checkbox" name="threeDSupported" checked /> 3D</label>
+              </div>
+              <div class="span-2">
+                <div class="preview-box">
+                  <div class="preview-title">Live Seat Mapping Preview</div>
+                  <div class="mini-screen">SCREEN THIS WAY</div>
+                  <div id="hallPreviewGrid" class="mini-seat-grid"></div>
+                </div>
+              </div>
+              <div class="span-2 form-actions">
+                <button type="submit" class="btn btn-primary">Save Hall & Seat Map</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Register Company -->
+          <div class="admin-pane" id="pane-company">
+            <h3>Register Theatre / Event Company</h3>
+            <p class="muted small">Maps to <code>RegisterCompanyDto</code>.</p>
+            <form id="companyForm" class="form-grid">
+              <label>Company Name *<input name="companyName" required placeholder="CinePolis India" /></label>
+              <label>Company Type *
+                <select name="companyType">
+                  <option value="THEATER_COMPANY">THEATER_COMPANY</option>
+                  <option value="EVENT_COMPANY">EVENT_COMPANY</option>
+                  <option value="INTERNAL">INTERNAL</option>
+                </select>
+              </label>
+              <label>Legal Name *<input name="legalName" required placeholder="CinePolis Entertainment Pvt. Ltd." /></label>
+              <label>Registration Number<input name="registrationNumber" placeholder="CIN-U92100MH2026" /></label>
+              <label>GST Number<input name="gstNumber" placeholder="27AABCC1234D1Z5" /></label>
+              <label>PAN Number<input name="panNumber" placeholder="AABCC1234D" /></label>
+              <label>Official Email *<input type="email" name="email" required placeholder="contact@cinepolis.in" /></label>
+              <label>Phone<input name="phoneNumber" placeholder="+91 22 4000 5000" /></label>
+              <label>City<input name="city" placeholder="Mumbai" /></label>
+              <div class="span-2 form-actions">
+                <button type="submit" class="btn btn-primary">Register Company</button>
+              </div>
+            </form>
+            <div class="list-block" id="companyList"></div>
+          </div>
+
+          <!-- Create Role -->
+          <div class="admin-pane" id="pane-role">
+            <h3>Create Role & Operations</h3>
+            <p class="muted small">Maps to <code>CreateRoleRequest</code> &amp; <code>OperationType</code>.</p>
+            <form id="roleForm" class="form-grid">
+              <label class="span-2">Role Name *<input name="roleName" required placeholder="THEATRE_MANAGER" /></label>
+              <div class="span-2 checkbox-grid">
+                <label class="check"><input type="checkbox" name="ops" value="CREATE_THEATRE" checked /> CREATE_THEATRE</label>
+                <label class="check"><input type="checkbox" name="ops" value="CREATE_HALL" checked /> CREATE_HALL</label>
+                <label class="check"><input type="checkbox" name="ops" value="CREATE_MOVIE" /> CREATE_MOVIE</label>
+                <label class="check"><input type="checkbox" name="ops" value="CREATE_ROLE" /> CREATE_ROLE</label>
+                <label class="check"><input type="checkbox" name="ops" value="INVITE_EMPLOYEE" checked /> INVITE_EMPLOYEE</label>
+              </div>
+              <div class="span-2 form-actions">
+                <button type="submit" class="btn btn-primary">Create Role</button>
+              </div>
+            </form>
+            <div class="list-block" id="roleList"></div>
+          </div>
+
+          <!-- Invite Employee -->
+          <div class="admin-pane" id="pane-employee">
+            <h3>Invite Employee</h3>
+            <p class="muted small">Maps to <code>InviteEmployeeRequest</code>.</p>
+            <form id="employeeForm" class="form-grid">
+              <label>Full Name *<input name="fullName" required placeholder="Aarav Sharma" /></label>
+              <label>Email *<input type="email" name="email" required placeholder="aarav@bms.in" /></label>
+              <label>Mobile Number<input name="mobileNumber" placeholder="+91 99887 76655" /></label>
+              <label>Designation *<input name="designation" required placeholder="Operations Lead" /></label>
+              <label>Department<input name="department" placeholder="Theatre Operations" /></label>
+              <label>Assign Role<select name="roleName" id="employeeRoleSelect"></select></label>
+              <div class="span-2 form-actions">
+                <button type="submit" class="btn btn-primary">Send Invite</button>
+              </div>
+            </form>
+            <div class="list-block" id="employeeList"></div>
+          </div>
+
+          <!-- Registered Users DB View -->
+          <div class="admin-pane" id="pane-users">
+            <h3>Registered Users Database</h3>
+            <p class="muted small">Live client-side database of accounts created via the <strong>User Registration Module</strong> (duplicate emails are blocked and passwords are validated on sign-in).</p>
+            <div class="list-block" id="registeredUsersList"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Booking & Seat Selection Modal -->
+  <div class="modal-overlay" id="bookingModal" aria-hidden="true">
+    <div class="modal modal-lg">
+      <div class="modal-header">
+        <div class="modal-movie-head">
+          <img id="modalMoviePoster" class="modal-thumb" src="assets/quantum-horizon.jpg" alt="Movie Poster" />
+          <div>
+            <h3 id="modalMovieTitle">Movie Title</h3>
+            <p class="muted small" id="modalMovieMeta"></p>
+          </div>
+        </div>
+        <button class="icon-btn" id="closeBookingModal" aria-label="Close">&times;</button>
+      </div>
+
+      <div class="booking-controls">
+        <label>
+          Theatre &amp; Hall
+          <select id="bookingHallSelect"></select>
+        </label>
+        <label>
+          Show Date
+          <input type="date" id="bookingDate" />
+        </label>
+        <div class="showtime-picker">
+          <span>Show Time</span>
+          <div class="chip-row" id="showtimeChips">
+            <button type="button" class="chip active" data-time="10:30 AM">10:30 AM</button>
+            <button type="button" class="chip" data-time="02:15 PM">02:15 PM</button>
+            <button type="button" class="chip" data-time="06:45 PM">06:45 PM</button>
+            <button type="button" class="chip" data-time="10:00 PM">10:00 PM</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="seat-stage">
+        <div class="screen-arc">ALL EYES THIS WAY PLEASE</div>
+        <div id="seatMapContainer" class="seat-map"></div>
+        <div class="seat-legend">
+          <span><i class="swatch available"></i> Available</span>
+          <span><i class="swatch recliner"></i> Recliner (₹450)</span>
+          <span><i class="swatch selected"></i> Selected</span>
+          <span><i class="swatch booked"></i> Sold</span>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <div class="booking-summary">
+          <div>Seats: <strong id="selectedSeatsText">None</strong></div>
+          <div>Total: <strong class="price" id="totalPriceText">₹0</strong></div>
+        </div>
+        <button class="btn btn-primary" id="confirmBookingBtn" disabled>Confirm Booking</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Auth Modal: Student 1 (Registration) & Student 2 (Login & Authentication) -->
+  <div class="modal-overlay" id="authModal" aria-hidden="true">
+    <div class="modal modal-auth">
+      <div class="modal-header">
+        <div>
+          <h3 id="authModalHeading">Welcome Back to BMS</h3>
+          <p class="muted small" id="authModalSub">Sign in with your registered email and password.</p>
+        </div>
+        <button class="icon-btn" id="closeAuthModal" aria-label="Close">&times;</button>
+      </div>
+
+      <div class="auth-tabs" role="tablist">
+        <button type="button" class="auth-tab active" data-auth-mode="login" role="tab">Sign In</button>
+        <button type="button" class="auth-tab" data-auth-mode="register" role="tab">Create Account</button>
+      </div>
+
+      <div id="authFeedback" class="form-alert" role="alert" hidden></div>
+
+      <!-- Student 2: Login & Authentication Form -->
+      <form id="loginForm" class="form-stack auth-form active" novalidate>
+        <label>
+          Email Address *
+          <input type="email" name="email" id="loginEmail" required placeholder="you@example.com" autocomplete="email" />
+          <span class="field-error" data-err-for="loginEmail"></span>
+        </label>
+        <label>
+          Password *
+          <div class="password-wrap">
+            <input type="password" name="password" id="loginPassword" required placeholder="Enter your password" autocomplete="current-password" />
+            <button type="button" class="toggle-pw" data-toggle-pw="loginPassword" aria-label="Show password">👁️</button>
+          </div>
+          <span class="field-error" data-err-for="loginPassword"></span>
+        </label>
+        <button type="submit" class="btn btn-primary btn-glow full-width">Sign In</button>
+        <div class="auth-hint small muted">
+          Demo account: <code>admin@bms-august.in</code> / <code>Admin@123</code> &bull;
+          New here? <button type="button" class="inline-link" data-switch-auth="register">Register now</button>
+        </div>
+      </form>
+
+      <!-- Student 1: User Registration Form -->
+      <form id="registerForm" class="form-stack auth-form" novalidate>
+        <label>
+          Full Name *
+          <input type="text" name="fullName" id="regName" required placeholder="e.g. Aarav Sharma" autocomplete="name" />
+          <span class="field-error" data-err-for="regName"></span>
+        </label>
+        <label>
+          Email Address *
+          <input type="email" name="email" id="regEmail" required placeholder="aarav@example.com" autocomplete="email" />
+          <span class="field-error" data-err-for="regEmail"></span>
+        </label>
+        <label>
+          Mobile Number *
+          <input type="tel" name="mobileNumber" id="regMobile" required placeholder="10-digit mobile (e.g. 9876543210)" maxlength="15" autocomplete="tel" />
+          <span class="field-error" data-err-for="regMobile"></span>
+        </label>
+        <label>
+          Password *
+          <div class="password-wrap">
+            <input type="password" name="password" id="regPassword" required placeholder="Min 6 chars (letters &amp; numbers)" autocomplete="new-password" />
+            <button type="button" class="toggle-pw" data-toggle-pw="regPassword" aria-label="Show password">👁️</button>
+          </div>
+          <span class="field-error" data-err-for="regPassword"></span>
+        </label>
+        <button type="submit" class="btn btn-primary btn-glow full-width">Create Account</button>
+        <div class="auth-hint small muted">
+          Already have an account? <button type="button" class="inline-link" data-switch-auth="login">Sign in</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="brand">
+        <span class="brand-badge">BMS</span>
+        <div class="brand-text">
+          <strong>BookMyShow — August 2026</strong>
+          <small>100% Pure HTML, CSS &amp; JavaScript • No Backend Required</small>
+        </div>
+      </div>
+      <div class="footer-links">
+        <button class="link-btn" data-jump="discover">Movies</button>
+        <button class="link-btn" data-jump="theatres">Theatres</button>
+        <button class="link-btn" data-jump="bookings">My Tickets</button>
+        <button class="link-btn" data-jump="admin">Partner Portal</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
