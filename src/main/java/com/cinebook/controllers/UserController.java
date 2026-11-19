@@ -12,12 +12,14 @@ import com.cinebook.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -60,6 +62,22 @@ public class UserController {
         } catch (Exception e) {
             return new ResponseEntity<>(Map.of("error", "Registration failed. Try again."), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    //this taken from ai
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllUsers() {
+        List<User> users = userService.getAllUsers();
+        List<Map<String, Object>> response = users.stream().map(u -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("fullName", u.getFullName());
+            map.put("email", u.getEmail());
+            map.put("mobileNumber", u.getMobileNumber());
+            map.put("userType", u.getUserType() != null ? u.getUserType().name() : "CUSTOMER");
+            map.put("active", u.isActive());
+            return map;
+        }).toList();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 }

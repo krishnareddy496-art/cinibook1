@@ -1932,5 +1932,48 @@
     setTimeout(closeAuthModal, 650);
   });
 
+  //this taken from ai
+  const viewDbBtn = document.getElementById("viewDbBtn");
+  const dbModal = document.getElementById("dbModal");
+  const closeDbModal = document.getElementById("closeDbModal");
+  const closeDbModalBtn = document.getElementById("closeDbModalBtn");
+  const refreshDbBtn = document.getElementById("refreshDbBtn");
+  const dbUsersTableBody = document.getElementById("dbUsersTableBody");
+
+  async function loadDatabaseUsers() {
+    if (!dbUsersTableBody) return;
+    dbUsersTableBody.innerHTML = '<tr><td colspan="5" style="padding: 20px; text-align: center; color: #94a3b8;">Loading database records from MySQL...</td></tr>';
+    try {
+      const res = await fetch("/api/v1/user/all");
+      if (!res.ok) throw new Error("Failed to load users from database");
+      const users = await res.json();
+      if (!users || users.length === 0) {
+        dbUsersTableBody.innerHTML = '<tr><td colspan="5" style="padding: 20px; text-align: center; color: #94a3b8;">No records found in database.</td></tr>';
+        return;
+      }
+      dbUsersTableBody.innerHTML = users.map(u => `
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+          <td style="padding: 10px 12px; font-weight: 500;">${u.fullName || "-"}</td>
+          <td style="padding: 10px 12px; color: #38bdf8;">${u.email || "-"}</td>
+          <td style="padding: 10px 12px;">${u.mobileNumber || "-"}</td>
+          <td style="padding: 10px 12px;"><span style="background: rgba(99,102,241,0.2); color: #a5b4fc; padding: 2px 8px; border-radius: 9999px; font-size: 0.78rem;">${u.userType || "CUSTOMER"}</span></td>
+          <td style="padding: 10px 12px;"><span style="color: #4ade80;">● Active</span></td>
+        </tr>
+      `).join("");
+    } catch (err) {
+      dbUsersTableBody.innerHTML = `<tr><td colspan="5" style="padding: 20px; text-align: center; color: #f87171;">Error connecting to database: ${err.message}</td></tr>`;
+    }
+  }
+
+  if (viewDbBtn && dbModal) {
+    viewDbBtn.addEventListener("click", () => {
+      dbModal.classList.add("open");
+      loadDatabaseUsers();
+    });
+    if (closeDbModal) closeDbModal.addEventListener("click", () => dbModal.classList.remove("open"));
+    if (closeDbModalBtn) closeDbModalBtn.addEventListener("click", () => dbModal.classList.remove("open"));
+    if (refreshDbBtn) refreshDbBtn.addEventListener("click", loadDatabaseUsers);
+  }
+
   renderAll();
 })();

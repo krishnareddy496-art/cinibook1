@@ -41,6 +41,8 @@
       </nav>
 
       <div class="auth-nav-actions" id="authNavActions">
+        <!-- this taken from ai -->
+        <button class="btn btn-ghost btn-sm" id="viewDbBtn" title="View Users stored in MySQL Database">📊 View Database Users</button>
         <button class="btn btn-ghost btn-sm" id="openRegisterBtn">Register</button>
         <button class="btn btn-primary btn-sm" id="authBtn">Sign In</button>
       </div>
@@ -479,6 +481,40 @@
           Already have an account? <button type="button" class="inline-link" data-switch-auth="login">Sign in</button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- this taken from ai -->
+  <!-- Modal: Registered Users in Database -->
+  <div id="dbModal" class="modal-backdrop" aria-hidden="true">
+    <div class="modal-card modal-lg" style="max-width: 780px;">
+      <div class="modal-header">
+        <div>
+          <h3>📊 Live Database Users (MySQL: cinebook1_db)</h3>
+          <p class="muted small" style="margin-top: 4px;">Live user records maintained in MySQL database (<code>cinebook1_db.users</code>)</p>
+        </div>
+        <button class="btn-close" id="closeDbModal" aria-label="Close modal">✕</button>
+      </div>
+      <div style="overflow-x: auto; margin-top: 14px; max-height: 380px;">
+        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem;">
+          <thead>
+            <tr style="border-bottom: 2px solid rgba(255,255,255,0.15); color: #818cf8;">
+              <th style="padding: 10px 12px;">Full Name</th>
+              <th style="padding: 10px 12px;">Email</th>
+              <th style="padding: 10px 12px;">Mobile</th>
+              <th style="padding: 10px 12px;">Type</th>
+              <th style="padding: 10px 12px;">Active</th>
+            </tr>
+          </thead>
+          <tbody id="dbUsersTableBody">
+            <tr><td colspan="5" style="padding: 20px; text-align: center; color: #94a3b8;">Loading database records...</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top: 18px; display: flex; justify-content: space-between; align-items: center;">
+        <button class="btn btn-ghost btn-sm" id="refreshDbBtn">🔄 Refresh From Database</button>
+        <button class="btn btn-primary btn-sm" id="closeDbModalBtn">Close</button>
+      </div>
     </div>
   </div>
 

@@ -159,6 +159,11 @@ public class UserService {
     }
 
     //this taken from ai
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    //this taken from ai
     public User registerUser(UserRegistrationRequest request) {
         // Prevent duplicate email registrations
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {

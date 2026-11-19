@@ -28,6 +28,7 @@ public class SecurityConfiguration {
                     "/api/v1/user/authenticate",
                     //this taken from ai
                     "/api/v1/user/register",
+                    "/api/v1/user/all",
                     "/api/v1/theatre/company/register",
                     "/error"
                 ).permitAll()
