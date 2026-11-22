@@ -1325,9 +1325,9 @@
 
     const booking = {
       id: `bk-${Date.now()}`,
-      bookingCode: `BMS-${Math.random().toString(36).slice(2, 7).toUpperCase()}`,
+      bookingCode: `CB-${Math.random().toString(36).slice(2, 7).toUpperCase()}`,
       movieTitle: movie.title,
-      theatreName: theatre ? theatre.theaterName : "BMS Theatre",
+      theatreName: theatre ? theatre.theaterName : "CineBook Theatre",
       hallName: hall.hallName,
       date: document.getElementById("bookingDate").value,
       time: ui.bookingTime,
@@ -1699,7 +1699,7 @@
     toast(`Invitation sent to ${emp.fullName}!`);
   });
 
-  // ==================== STUDENT 1 (REGISTRATION) & STUDENT 2 (LOGIN & AUTH) ====================
+  // ==================== USER REGISTRATION & AUTHENTICATION ====================
   const authModal = document.getElementById("authModal");
   const authFeedback = document.getElementById("authFeedback");
   const loginForm = document.getElementById("loginForm");
@@ -1732,7 +1732,7 @@
     document.querySelectorAll(".auth-tab").forEach(t => t.classList.toggle("active", t.dataset.authMode === mode));
     loginForm.classList.toggle("active", !isReg);
     registerForm.classList.toggle("active", isReg);
-    document.getElementById("authModalHeading").textContent = isReg ? "Create Your BMS Account" : "Welcome Back to BMS";
+    document.getElementById("authModalHeading").textContent = isReg ? "Create Your CineBook Account" : "Welcome Back to CineBook";
     document.getElementById("authModalSub").textContent = isReg
       ? "Register with your name, email, mobile number, and password."
       : "Sign in with your registered email and password.";
@@ -1787,7 +1787,7 @@
   const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
   const MOBILE_REGEX = /^[6-9]\d{9}$/;
 
-  // Student 1: User Registration Form Submission
+  // User Registration Form Submission
   //this taken from ai
   registerForm.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -1878,7 +1878,7 @@
     toast(`Welcome, ${fullName}! Account registered.`);
   });
 
-  // Student 2: User Login and Authentication Form Submission
+  // User Login and Authentication Form Submission
   loginForm.addEventListener("submit", (e) => {
     e.preventDefault();
     clearAuthFeedback();
