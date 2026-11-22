@@ -1699,7 +1699,7 @@
     toast(`Invitation sent to ${emp.fullName}!`);
   });
 
-  // ==================== STUDENT 1 (REGISTRATION) & STUDENT 2 (LOGIN & AUTH) ====================
+  // ==================== USER REGISTRATION & AUTHENTICATION ====================
   const authModal = document.getElementById("authModal");
   const authFeedback = document.getElementById("authFeedback");
   const loginForm = document.getElementById("loginForm");
@@ -1787,7 +1787,7 @@
   const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
   const MOBILE_REGEX = /^[6-9]\d{9}$/;
 
-  // Student 1: User Registration Form Submission
+  // User Registration Form Submission
   //this taken from ai
   registerForm.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -1878,7 +1878,7 @@
     toast(`Welcome, ${fullName}! Account registered.`);
   });
 
-  // Student 2: User Login and Authentication Form Submission
+  // User Login and Authentication Form Submission
   loginForm.addEventListener("submit", (e) => {
     e.preventDefault();
     clearAuthFeedback();

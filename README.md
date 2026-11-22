@@ -6,7 +6,7 @@ A complete full-stack Movie & Theatre Booking platform built using **Spring Boot
 ---
 
 ## 🎯 Category 1 – User Account Management
-### Student 1: User Registration Module
+### User Registration Module
 
 ### Assignment Requirements & Implementation:
 1. **Registration Form**: Responsive modal form accessible directly from the top navigation bar.
