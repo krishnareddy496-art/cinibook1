@@ -1,7 +1,6 @@
 package com.cinebook.controllers;
 
 import com.cinebook.dtos.request.UserLoginRequest;
-//this taken from ai
 import com.cinebook.dtos.request.UserRegistrationRequest;
 import jakarta.validation.Valid;
 import com.cinebook.dtos.response.LoginSuccessResponse;
@@ -46,7 +45,6 @@ public class UserController {
         return new ResponseEntity(loginSuccessResponse, HttpStatus.OK);
     }
 
-    //this taken from ai
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody UserRegistrationRequest request) {
         try {
@@ -64,7 +62,6 @@ public class UserController {
         }
     }
 
-    //this taken from ai
     @GetMapping("/all")
     public ResponseEntity<?> getAllUsers() {
         List<User> users = userService.getAllUsers();
