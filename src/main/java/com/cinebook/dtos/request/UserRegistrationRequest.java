@@ -1,4 +1,3 @@
-//this taken from ai
 package com.cinebook.dtos.request;
 
 import jakarta.validation.constraints.Email;
