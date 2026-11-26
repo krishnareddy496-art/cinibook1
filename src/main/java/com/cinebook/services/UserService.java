@@ -162,15 +162,21 @@ public class UserService {
     }
 
     public User registerUser(UserRegistrationRequest request) {
-        // Prevent duplicate email registrations
-        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+        String cleanEmail = request.getEmail().trim().toLowerCase();
+        String cleanMobile = request.getMobileNumber().trim();
+
+        if (userRepository.findByEmail(cleanEmail).isPresent()) {
             throw new IllegalArgumentException("Email is already registered! Please login.");
         }
 
+        if (userRepository.findByMobileNumber(cleanMobile).isPresent()) {
+            throw new IllegalArgumentException("Mobile number is already registered! Please use a different number.");
+        }
+
         User newUser = User.builder()
-                .fullName(request.getFullName())
-                .email(request.getEmail().trim().toLowerCase())
-                .mobileNumber(request.getMobileNumber())
+                .fullName(request.getFullName().trim())
+                .email(cleanEmail)
+                .mobileNumber(cleanMobile)
                 .passwordHash(request.getPassword())
                 .userType(UserType.CUSTOMER)
                 .active(true)

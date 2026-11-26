@@ -1845,8 +1845,15 @@
       const result = await response.json();
 
       if (!response.ok) {
-        setFieldError("regEmail", result.error || "Email already registered.");
-        showAuthAlert("error", result.error || "Registration failed. Please try again.");
+        const errorMsg = result.error || "Registration failed. Please try again.";
+        if (errorMsg.toLowerCase().includes("mobile")) {
+          setFieldError("regMobile", errorMsg);
+        } else if (errorMsg.toLowerCase().includes("email")) {
+          setFieldError("regEmail", errorMsg);
+        } else {
+          setFieldError("regEmail", errorMsg);
+        }
+        showAuthAlert("error", errorMsg);
         return;
       }
     } catch (apiErr) {
