@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BMS August 2026 — Movies, Theatres & Admin Portal</title>
+  <title>CineBook — Movies, Theatres & Booking Portal</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -11,10 +11,10 @@
   <header class="navbar">
     <div class="nav-left">
       <div class="brand" id="brandHome">
-        <span class="brand-badge">BMS</span>
+        <span class="brand-badge">CB</span>
         <div class="brand-text">
-          <strong>BookMyShow</strong>
-          <small>August 2026</small>
+          <strong>CineBook</strong>
+          <small>Movie &amp; Theatres</small>
         </div>
       </div>
 
@@ -41,7 +41,6 @@
       </nav>
 
       <div class="auth-nav-actions" id="authNavActions">
-        <!-- this taken from ai -->
         <button class="btn btn-ghost btn-sm" id="viewDbBtn" title="View Users stored in MySQL Database">📊 View Database Users</button>
         <button class="btn btn-ghost btn-sm" id="openRegisterBtn">Register</button>
         <button class="btn btn-primary btn-sm" id="authBtn">Sign In</button>
@@ -163,7 +162,7 @@
     <section id="view-admin" class="view">
       <div class="section-header">
         <div>
-          <h2>BMS Partner & Admin Portal</h2>
+          <h2>CineBook Partner & Admin Portal</h2>
           <p class="muted">Manage Companies, Theatres, Movies, Halls & Seat Mappings, Roles, and Employees (frontend-only state).</p>
         </div>
         <div class="session-pill" id="sessionStatus">Guest Mode</div>
@@ -411,12 +410,12 @@
     </div>
   </div>
 
-  <!-- Auth Modal: Student 1 (Registration) & Student 2 (Login & Authentication) -->
+  <!-- Auth Modal: User Registration & Authentication -->
   <div class="modal-overlay" id="authModal" aria-hidden="true">
     <div class="modal modal-auth">
       <div class="modal-header">
         <div>
-          <h3 id="authModalHeading">Welcome Back to BMS</h3>
+          <h3 id="authModalHeading">Welcome Back to CineBook</h3>
           <p class="muted small" id="authModalSub">Sign in with your registered email and password.</p>
         </div>
         <button class="icon-btn" id="closeAuthModal" aria-label="Close">&times;</button>
@@ -429,7 +428,7 @@
 
       <div id="authFeedback" class="form-alert" role="alert" hidden></div>
 
-      <!-- Student 2: Login & Authentication Form -->
+      <!-- User Login & Authentication Form -->
       <form id="loginForm" class="form-stack auth-form active" novalidate>
         <label>
           Email Address *
@@ -446,12 +445,12 @@
         </label>
         <button type="submit" class="btn btn-primary btn-glow full-width">Sign In</button>
         <div class="auth-hint small muted">
-          Demo account: <code>admin@bms-august.in</code> / <code>Admin@123</code> &bull;
+          Demo account: <code>admin@cinebook.com</code> / <code>Admin@123</code> &bull;
           New here? <button type="button" class="inline-link" data-switch-auth="register">Register now</button>
         </div>
       </form>
 
-      <!-- Student 1: User Registration Form -->
+      <!-- User Registration Form -->
       <form id="registerForm" class="form-stack auth-form" novalidate>
         <label>
           Full Name *
@@ -484,7 +483,6 @@
     </div>
   </div>
 
-  <!-- this taken from ai -->
   <!-- Modal: Registered Users in Database -->
   <div id="dbModal" class="modal-backdrop" aria-hidden="true">
     <div class="modal-card modal-lg" style="max-width: 780px;">
@@ -522,10 +520,10 @@
   <footer class="site-footer">
     <div class="footer-inner">
       <div class="brand">
-        <span class="brand-badge">BMS</span>
+        <span class="brand-badge">CB</span>
         <div class="brand-text">
-          <strong>BookMyShow — August 2026</strong>
-          <small>100% Pure HTML, CSS &amp; JavaScript • No Backend Required</small>
+          <strong>CineBook</strong>
+          <small>Movie &amp; Theatres Booking Platform</small>
         </div>
       </div>
       <div class="footer-links">

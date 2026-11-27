@@ -1,7 +1,6 @@
 package com.cinebook.controllers;
 
 import com.cinebook.dtos.request.UserLoginRequest;
-//this taken from ai
 import com.cinebook.dtos.request.UserRegistrationRequest;
 import jakarta.validation.Valid;
 import com.cinebook.dtos.response.LoginSuccessResponse;
@@ -10,6 +9,7 @@ import com.cinebook.models.User;
 import com.cinebook.services.AuthService;
 import com.cinebook.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,7 +46,6 @@ public class UserController {
         return new ResponseEntity(loginSuccessResponse, HttpStatus.OK);
     }
 
-    //this taken from ai
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody UserRegistrationRequest request) {
         try {
@@ -59,12 +58,13 @@ public class UserController {
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(Map.of("error", e.getMessage()), HttpStatus.BAD_REQUEST);
+        } catch (DataIntegrityViolationException e) {
+            return new ResponseEntity<>(Map.of("error", "Email or mobile number is already registered."), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             return new ResponseEntity<>(Map.of("error", "Registration failed. Try again."), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    //this taken from ai
     @GetMapping("/all")
     public ResponseEntity<?> getAllUsers() {
         List<User> users = userService.getAllUsers();
